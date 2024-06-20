@@ -2,10 +2,8 @@ import { StyleSheet, Text, Image, Pressable } from "react-native";
 import { Link } from "expo-router";
 
 import Colors from "@/constants/Colors";
+import { defaultPizzaImage } from "@/constants/common";
 import { type Product } from "@/types";
-
-export const defaultPizzaImage =
-  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png";
 
 type ProductListItemProps = {
   product: Product;
