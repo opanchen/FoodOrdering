@@ -5,7 +5,7 @@ export const defaultPizzaImage =
 
 export const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
-export const OrderStatusList: OrderStatus[] = [
+export const orderStatusList: OrderStatus[] = [
   "New",
   "Cooking",
   "Delivering",

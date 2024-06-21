@@ -1,9 +1,9 @@
+import { StyleSheet, Text, View, FlatList } from "react-native";
+import { Stack, useLocalSearchParams } from "expo-router";
+
+import orders from "@assets/data/orders";
 import OrderListItem from "@/components/ui/OrderListItem";
 import OrderedProductListItem from "@/components/ui/OrderedProductListItem";
-import orders from "@assets/data/orders";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import { FlatList } from "react-native";
 
 const OrderDetailsScreen = () => {
   const { orderId } = useLocalSearchParams();
