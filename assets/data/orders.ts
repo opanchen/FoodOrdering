@@ -1,11 +1,10 @@
-// import { Order } from "../../src/types"; // TODO: Uncomment later, when types will be implemented
+import { Order } from "@/types";
 import products from "./products";
 import dayjs from "dayjs";
 
 const now = dayjs();
 
-// TODO: Define types for orders as Order[]
-const orders = [
+const orders: Order[] = [
   {
     id: 23123,
     created_at: now.subtract(1, "hour").toISOString(),
