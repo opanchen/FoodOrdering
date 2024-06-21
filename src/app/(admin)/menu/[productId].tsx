@@ -1,7 +1,9 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { defaultPizzaImage } from "@/constants/common";
+import Colors from "@/constants/Colors";
 import products from "@assets/data/products";
 
 const ProductDetailsScreen = () => {
@@ -15,6 +17,26 @@ const ProductDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "Menu",
+          headerRight: () => (
+            <Link href={`/(admin)/menu/create?productId=${productId}`} asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
+
       <Stack.Screen options={{ title: product.name }} />
 
       <Image
