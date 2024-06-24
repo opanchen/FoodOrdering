@@ -7,9 +7,11 @@ import {
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 
+import { useOrderDetails } from "@/api/orders";
+import { useUpdateOrderSubscription } from "@/api/orders/subscriptions";
+
 import OrderListItem from "@/components/ui/OrderListItem";
 import OrderedProductListItem from "@/components/ui/OrderedProductListItem";
-import { useOrderDetails } from "@/api/orders";
 
 const OrderDetailsScreen = () => {
   const { orderId: idString } = useLocalSearchParams();
@@ -23,6 +25,8 @@ const OrderDetailsScreen = () => {
   );
 
   const { data: order, isLoading, error } = useOrderDetails(orderId);
+
+  useUpdateOrderSubscription(orderId);
 
   if (!order) {
     return <Text>Order not found!</Text>;
