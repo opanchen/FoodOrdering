@@ -18,7 +18,11 @@ export const useProductList = () => {
 
 export const useProduct = (productId: number | null) => {
   if (!productId)
-    return { data: null, error: { message: "Missing productId" } }; // To deal with TS error
+    return {
+      data: null,
+      error: { message: "Missing productId" },
+      isLoading: false,
+    }; // To deal with TS error
 
   return useQuery({
     queryKey: ["products", productId],

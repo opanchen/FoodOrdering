@@ -3,6 +3,7 @@ import { Link, useSegments } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { defaultPizzaImage } from "@/constants/common";
+import RemoteImage from "@/components/ui/RemoteImage";
 
 import { Tables } from "@/types";
 
@@ -16,8 +17,9 @@ const ProductListItem = ({ product }: ProductListItemProps) => {
   return (
     <Link href={`${segments[0]}/menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
-        <Image
-          source={{ uri: product.image || defaultPizzaImage }}
+        <RemoteImage
+          path={product.image}
+          fallback={defaultPizzaImage}
           style={styles.image}
           resizeMode="contain"
         />

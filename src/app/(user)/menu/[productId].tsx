@@ -1,5 +1,4 @@
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -11,7 +10,10 @@ import { useState } from "react";
 
 import { useProduct } from "@/api/products";
 import { useCart } from "@/providers/CartProvider";
+
 import { defaultPizzaImage, sizes } from "@/constants/common";
+
+import RemoteImage from "@/components/ui/RemoteImage";
 import Button from "@/components/ui/Button";
 
 import type { PizzaSize } from "@/types";
@@ -46,7 +48,7 @@ const ProductDetailsScreen = () => {
     return <ActivityIndicator />;
   }
 
-  if (error) {
+  if (error || !product) {
     return <Text>Failed to fetch products</Text>;
   }
 
@@ -54,8 +56,9 @@ const ProductDetailsScreen = () => {
     <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
 
-      <Image
-        source={{ uri: product.image || defaultPizzaImage }}
+      <RemoteImage
+        path={product?.image}
+        fallback={defaultPizzaImage}
         style={styles.image}
       />
 

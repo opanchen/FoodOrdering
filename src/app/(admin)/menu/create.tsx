@@ -1,17 +1,24 @@
 import { StyleSheet, Text, View, TextInput, Image, Alert } from "react-native";
 import { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { randomUUID } from "expo-crypto";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import { decode } from "base64-arraybuffer";
 
-import { defaultPizzaImage } from "@/constants/common";
-import Colors from "@/constants/Colors";
-import Button from "@/components/ui/Button";
+import { supabase } from "@/lib/supabase";
+
 import {
   useDeleteProduct,
   useInsertProduct,
   useProduct,
   useUpdateProduct,
 } from "@/api/products";
+
+import { defaultPizzaImage } from "@/constants/common";
+import Colors from "@/constants/Colors";
+
+import Button from "@/components/ui/Button";
 
 const CreateProductScreen = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -74,12 +81,14 @@ const CreateProductScreen = () => {
     }
   };
 
-  const onCreate = () => {
+  const onCreate = async () => {
     if (!validateInput()) return;
+
+    const imagePath = await uploadImage();
 
     console.warn("Creating product: ", name);
 
-    const data = { name, price: parseFloat(price), image };
+    const data = { name, price: parseFloat(price), image: imagePath };
 
     insertProduct(data, {
       onSuccess: () => {
@@ -93,7 +102,7 @@ const CreateProductScreen = () => {
     if (!validateInput()) return;
 
     console.warn("Updating product: ", name);
-    console.log(updatingProduct.id);
+    console.log(updatingProduct?.id);
 
     const data = {
       productId: updatingProduct?.id,
@@ -121,6 +130,29 @@ const CreateProductScreen = () => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+    }
+  };
+
+  const uploadImage = async () => {
+    if (!image?.startsWith("file://")) {
+      return;
+    }
+
+    const base64 = await FileSystem.readAsStringAsync(image, {
+      encoding: "base64",
+    });
+    const filePath = `${randomUUID()}.png`;
+    const contentType = "image/png";
+    const { data, error } = await supabase.storage
+      .from("product-images")
+      .upload(filePath, decode(base64), { contentType });
+
+    if (error) {
+      console.log("UPLOAD_IMAGE_ERROR: ", error);
+    }
+
+    if (data) {
+      return data.path;
     }
   };
 
