@@ -6,7 +6,7 @@ import CartListItem from "@/components/ui/CartListItem";
 import Button from "@/components/ui/Button";
 
 const CartScreen = () => {
-  const { items, total } = useCart();
+  const { items, total, checkout } = useCart();
   return (
     <View style={styles.container}>
       <FlatList
@@ -16,7 +16,7 @@ const CartScreen = () => {
       />
 
       <Text style={styles.total}>Total: ${total}</Text>
-      <Button text="Checkout" />
+      <Button onPress={checkout} text="Checkout" />
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
