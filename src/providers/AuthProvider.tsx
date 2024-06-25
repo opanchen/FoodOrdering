@@ -26,8 +26,19 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const fetchProfile = async (session: Session | null) => {
+      if (!session) return;
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+      setProfile(data || null);
+    };
+
     const fetchSession = async () => {
       const {
         data: { session },
@@ -37,14 +48,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       setLoading(false);
 
       if (session) {
-        // fetch profile
-        const { data } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-        setProfile(data || null);
+        fetchProfile(session);
       }
+      setMounted(true);
     };
 
     fetchSession();
@@ -52,12 +58,18 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     // Subscribe to session changes when the application mounts
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      fetchProfile(session);
     });
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ session, loading, profile, isAdmin: profile?.group === "ADMIN" }}
+      value={{
+        session,
+        loading: loading || !mounted,
+        profile,
+        isAdmin: profile?.group === "ADMIN",
+      }}
     >
       {children}
     </AuthContext.Provider>

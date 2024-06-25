@@ -25,6 +25,20 @@ export default function MenuStack() {
               </Pressable>
             </Link>
           ),
+          headerLeft: () => (
+            <Link href="/" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="home"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
     </Stack>

@@ -86,8 +86,6 @@ const CreateProductScreen = () => {
 
     const imagePath = await uploadImage();
 
-    console.warn("Creating product: ", name);
-
     const data = { name, price: parseFloat(price), image: imagePath };
 
     insertProduct(data, {
@@ -98,17 +96,16 @@ const CreateProductScreen = () => {
     });
   };
 
-  const onUpdate = () => {
+  const onUpdate = async () => {
     if (!validateInput()) return;
 
-    console.warn("Updating product: ", name);
-    console.log(updatingProduct?.id);
+    const imagePath = await uploadImage();
 
     const data = {
       productId: updatingProduct?.id,
       name,
       price: parseFloat(price),
-      image,
+      image: imagePath,
     };
 
     updateProduct(data, {
