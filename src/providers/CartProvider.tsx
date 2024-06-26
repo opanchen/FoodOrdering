@@ -2,6 +2,8 @@ import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { randomUUID } from "expo-crypto";
 import { useRouter } from "expo-router";
 
+import { initialisePaymentSheet, openPaymentSheet } from "@/lib/stipe";
+
 import { useInsertOrder } from "@/api/orders";
 import { useInsertOrderItems } from "@/api/order-items";
 
@@ -74,7 +76,12 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     setItems([]);
   };
 
-  const checkout = () => {
+  const checkout = async () => {
+    await initialisePaymentSheet(Math.floor(total * 100));
+    const payed = await openPaymentSheet();
+
+    if (!payed) return;
+
     insertOrder(
       { total },
       {
@@ -93,7 +100,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
 
     insertOrderItems(orderItems, {
       onSuccess: () => {
-        console.log("ORDER: ", order);
+        // console.log("ORDER: ", order);
         clearCart();
         router.push(`/(user)/orders/${order.id}`);
       },
