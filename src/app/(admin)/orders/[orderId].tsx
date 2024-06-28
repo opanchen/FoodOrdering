@@ -8,9 +8,13 @@ import {
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 
+import { notifyUserAboutOrderUpdate } from "@/lib/notifications";
+
 import { useOrderDetails, useUpdateOrder } from "@/api/orders";
+
 import { orderStatusList } from "@/constants/common";
 import Colors from "@/constants/Colors";
+
 import OrderListItem from "@/components/ui/OrderListItem";
 import OrderedProductListItem from "@/components/ui/OrderedProductListItem";
 
@@ -30,8 +34,14 @@ const OrderDetailsScreen = () => {
   const { data: order, isLoading, error } = useOrderDetails(orderId);
   const { mutate: updateOrder } = useUpdateOrder();
 
-  const updateStatus = (status: OrderStatus) => {
+  const updateStatus = async (status: OrderStatus) => {
     updateOrder({ orderId, updatedFields: { status } });
+
+    console.log("Notify: ", order?.user_id);
+
+    if (order) {
+      await notifyUserAboutOrderUpdate({ ...order, status });
+    }
   };
 
   if (isLoading) {
