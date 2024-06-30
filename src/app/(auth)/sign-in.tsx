@@ -1,16 +1,17 @@
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Link, Stack } from "expo-router";
 import { useState } from "react";
 
 import { supabase } from "@/lib/supabase";
-import Button from "@/components/ui/Button";
+
 import Colors from "@/constants/Colors";
+
+import Button from "@/components/ui/Button";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const signInWithEmail = async () => {
@@ -42,7 +43,7 @@ const SignInScreen = () => {
     }
 
     if (!password) {
-      setErrors("Price is required");
+      setErrors("Password is required");
       return false;
     }
 

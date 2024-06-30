@@ -9,6 +9,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 
 import { useProduct } from "@/api/products";
+
 import { useCart } from "@/providers/CartProvider";
 
 import { defaultPizzaImage, sizes } from "@/constants/common";

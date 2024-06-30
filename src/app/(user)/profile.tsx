@@ -1,17 +1,15 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image } from "react-native";
+import { Link } from "expo-router";
 
 import { supabase } from "@/lib/supabase";
 
 import { useAuth } from "@/providers/AuthProvider";
-import { Link } from "expo-router";
-import { Image } from "react-native";
+
 import { defaultPizzaImage } from "@/constants/common";
 import Colors from "@/constants/Colors";
 
 const ProfileScreen = () => {
-  const { isAdmin, profile } = useAuth();
-
-  console.log(profile);
+  const { isAdmin } = useAuth();
 
   const signOut = async () => {
     await supabase.auth.signOut();

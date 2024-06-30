@@ -1,8 +1,9 @@
-import { StyleSheet, Text, Image, Pressable } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import { Link, useSegments } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { defaultPizzaImage } from "@/constants/common";
+
 import RemoteImage from "@/components/ui/RemoteImage";
 
 import { Tables } from "@/types";

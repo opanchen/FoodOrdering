@@ -12,6 +12,7 @@ import "react-native-reanimated";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
 import { useColorScheme } from "@/components/useColorScheme";
+
 import CartProvider from "@/providers/CartProvider";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryProvider";
